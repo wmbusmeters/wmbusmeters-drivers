@@ -21,6 +21,8 @@ cat > $OUT <<EOF
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// Generated $(date +%Y-%m-%d_%H:%M)
+
 BuiltinDriver builtins_[] =
 {
 EOF

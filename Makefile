@@ -16,9 +16,11 @@ tests:
 	@date +%Y-%m-%d_%H:%M >> build/generated_tests.xmq
 	@for i in $(wildcard wmbusmeters.drivers.d/*) ; do xmq $$i select /driver/test to-xmq >> build/generated_tests.xmq; done
 
-install: build_database build_tests
+install: database tests
 	cp build/generated_database.cc ../wmbusmeters/src
 	cp build/generated_tests.xmq ../wmbusmeters/tests/generated_tests.xmq
 
 test:
 	@for i in $(wildcard wmbusmeters.drivers.d/*) ; do ./test.sh $(PROG) $$i ; done
+
+.PHONY: database web tests install test
