@@ -33,7 +33,7 @@ for i in wmbusmeters.drivers.d/*.xmq
 do
     NAME=$(basename $i)
     NAME="${NAME%.*}"
-    CONTENT="$(xmq $i delete driver/test to-xmq --compact | sed 's/"/\\"/g')"
+    CONTENT="$(xmq $i delete /driver/test to-xmq --compact | sed 's/"/\\"/g')"
     cat >>$OUT <<EOF
     { "$NAME", "$CONTENT", false },
 EOF
