@@ -9,9 +9,12 @@ HEX="$4"
 JSON="$5"
 FIELDS="$6"
 
-rm -f $TEST/test_output.txt $TEST/test_expected.txt
+rm -f $TEST/test_output.txt $TEST/test_expected.txt $TEST/simulation_tmp.txt
 
-$PROG --driver=$DRIVER --format=json $HEX $ARGS \
+echo "$HEX" | sed 's/^/telegram=/g' > $TEST/simulation_tmp.txt
+
+$PROG --driver=$DRIVER --format=json $TEST/simulation_tmp.txt $ARGS \
+    | tail -n 1 \
     | jq . --sort-keys \
     | sed 's/"timestamp": "....-..-..T..:..:..Z"/"timestamp": "1111-11-11T11:11:11Z"/' \
     > $TEST/test_output.txt
@@ -28,9 +31,10 @@ fi
 
 rm -f $TEST/test_output.txt $TEST/test_expected.txt
 
-$PROG --driver=$DRIVER --format=fields $HEX $ARGS \
+$PROG --driver=$DRIVER --format=fields $TEST/simulation_tmp.txt $ARGS \
     | sed 's/....-..-.. ..:..:../1111-11-11 11:11.11/' \
-    > $TEST/test_output.txt
+    | tail -n 1 \
+     > $TEST/test_output.txt
 
 echo "$FIELDS" > $TEST/test_expected.txt
 
